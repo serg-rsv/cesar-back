@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
 
     await user.update({ token: accessToken });
 
-    return res.json({ accessToken });
+    return res.status(201).json({ accessToken });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });

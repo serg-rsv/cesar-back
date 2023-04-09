@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import logger from 'morgan';
@@ -9,7 +9,7 @@ dotenv.config({ path: configPath });
 import { connectToDatabase } from './config';
 import { User, Message } from './models';
 import { authRouter, messageRouter } from './routes';
-import { authentication } from './middlewares';
+import { authentication } from './middleware';
 
 const app = express();
 
@@ -20,6 +20,11 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/messages', authentication, messageRouter);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
+});
 
 User.sync();
 Message.sync();

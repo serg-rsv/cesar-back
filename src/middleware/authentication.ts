@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models';
 import { AuthenticatedRequest } from '../types';
@@ -21,7 +21,7 @@ export const authentication = async (
 ) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).json({ message: 'Missing authorization header' });
+    return res.status(401).json({ error: 'Missing authorization header' });
   }
 
   const [bearer, accessToken] = authHeader.split(' ');
@@ -29,7 +29,7 @@ export const authentication = async (
   if (bearer !== 'Bearer' || !accessToken) {
     return res
       .status(401)
-      .json({ message: 'Invalid authorization header format' });
+      .json({ error: 'Invalid authorization header format' });
   }
 
   try {
@@ -37,12 +37,12 @@ export const authentication = async (
     const user = await User.findByPk(decoded.id);
 
     if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+      return res.status(401).json({ error: 'User not found' });
     }
 
     req.user = user;
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Invalid access token' });
+    return res.status(401).json({ error: 'Invalid access token' });
   }
 };

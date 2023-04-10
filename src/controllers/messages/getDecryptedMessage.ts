@@ -25,18 +25,15 @@ export const getDecryptedMessage = async (
         break;
       case 'xor':
         decryptedMessage = xor(encrypted_message.toString(), encryption_key);
-        console.log('encryption_key:', encryption_key);
-        console.log('encrypted_message:', encrypted_message);
-        console.log('decryptedMessage:', decryptedMessage);
         break;
 
       default:
         throw new Error('Failed to decrypt message');
     }
 
-    res.status(200).json(decryptedMessage);
+    res.status(200).json({ id: messageId, decryptedMessage });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

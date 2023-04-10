@@ -7,11 +7,17 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ error: 'Bad request. Email and password are required.' });
+    }
+
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: 'User with such email already exists' });
+        .json({ error: 'User with such email already exists' });
     }
 
     const passwordHash = await hash(password, 12);
@@ -25,6 +31,6 @@ export const register = async (req: Request, res: Response) => {
     return res.status(201).json({ accessToken });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -1,0 +1,106 @@
+components:
+  schemas:
+    AuthRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    AccessToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Access token for authorized requests
+    MessageToSave:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The message to be encrypted.
+          example: Hello world!
+        key:
+          type: number | string
+          description: The encryption key to be used (can be a number or string).
+          example: mysecretkey
+        type:
+          type: string
+          description: The encryption type to be used.
+          enum: [cesar, xor]
+          example: xor
+      required:
+        - message
+        - key
+        - type
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The message DB id
+          example: 9
+        encryptedMessage:
+          type: string
+          description: The saved encrypted message
+          example: Ury%$yb@jbeyq
+    DecryptedMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the decrypted message
+          example: 13
+        decryptedMessage:
+          type: string
+          description: Decrypted message
+          example: Hello world!
+  responses:
+    BadRequestError:
+      description: Bad request. Missing or invalid some required data.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message
+                example: Email and password are required.
+    UnauthorizedError:
+      description: Unauthorized. Missing or invalid authorization header.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message
+                example: Invalid credentials.
+    NotFoundError:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: The error message
+                example: Message not found
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []

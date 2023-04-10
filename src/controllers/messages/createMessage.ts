@@ -11,6 +11,12 @@ export const createMessage = async (
     const userId = req.user!.id;
     const { message, key, type } = req.body;
 
+    if (!message || !key || !type) {
+      return res
+        .status(400)
+        .json({ error: 'Bad request. Wrong request object.' });
+    }
+
     let encryptedMessage: Buffer;
     switch (type) {
       case 'cesar':
@@ -32,11 +38,12 @@ export const createMessage = async (
       encryption_type: type,
     });
 
-    res
-      .status(201)
-      .json({ messageSaved, messageString: encryptedMessage.toString() });
+    res.status(201).json({
+      id: messageSaved.id,
+      encryptedMessage: encryptedMessage.toString(),
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

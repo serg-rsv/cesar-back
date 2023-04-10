@@ -6,6 +6,9 @@ import logger from 'morgan';
 const configPath = path.join(__dirname, 'config', '.env');
 dotenv.config({ path: configPath });
 
+const swaggerUi = require('swagger-ui-express');
+const { swaggerSpec } = require('./swagger');
+
 import { connectToDatabase } from './config';
 import { User, Message } from './models';
 import { authRouter, messageRouter } from './routes';
@@ -18,12 +21,14 @@ app.use(logger(formatsLogger));
 
 app.use(express.json());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use('/api/auth', authRouter);
 app.use('/api/messages', authentication, messageRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).send('Internal Server Error');
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 User.sync();

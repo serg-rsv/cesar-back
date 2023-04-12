@@ -66,8 +66,8 @@ router.get('/', getMessages);
  * @swagger
  * /messages/{messageId}:
  *   get:
- *     summary: Retrieve the encrypted message by ID
- *     description: Retrieve the encrypted message from the database using the provided ID parameter in the URL path.
+ *     summary: Get the encrypted message by ID
+ *     description: Get the encrypted message from the database using the provided ID parameter in the URL path.
  *     tags:
  *       - Messages
  *     parameters:

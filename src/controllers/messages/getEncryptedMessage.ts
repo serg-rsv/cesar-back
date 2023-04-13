@@ -13,12 +13,10 @@ export const getEncryptedMessage = async (
       return res.status(404).json({ error: 'Message not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        id: storedMessage.id,
-        encryptedMessage: storedMessage.encrypted_message,
-      });
+    res.status(200).json({
+      id: storedMessage.id,
+      text: storedMessage.encrypted_text,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

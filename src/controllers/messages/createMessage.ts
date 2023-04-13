@@ -9,22 +9,22 @@ export const createMessage = async (
 ) => {
   try {
     const userId = req.user!.id;
-    const { message, key, type } = req.body;
+    const { text, key, type } = req.body;
 
-    if (!message || !key || !type) {
+    if (!text || !key || !type) {
       return res
         .status(400)
         .json({ error: 'Bad request. Wrong request object.' });
     }
 
-    let encryptedMessage: Buffer;
+    let encryptedText: Buffer;
     switch (type) {
       case 'cesar':
-        encryptedMessage = Buffer.from(caesarEncrypt(message, Number(key)));
+        encryptedText = Buffer.from(caesarEncrypt(text, Number(key)));
         break;
       case 'xor':
-        encryptedMessage = Buffer.from(xor(message, key));
-        console.log('encryptedMessage:', encryptedMessage);
+        encryptedText = Buffer.from(xor(text, key));
+        console.log('encryptedText:', encryptedText);
         break;
 
       default:
@@ -33,14 +33,14 @@ export const createMessage = async (
 
     const messageSaved = await Message.create({
       user_id: userId,
-      encrypted_message: encryptedMessage,
+      encrypted_text: encryptedText,
       encryption_key: key,
       encryption_type: type,
     });
 
     res.status(201).json({
       id: messageSaved.id,
-      encryptedMessage: encryptedMessage.toString(),
+      text: encryptedText.toString(),
     });
   } catch (error) {
     console.error(error);

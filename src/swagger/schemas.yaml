@@ -20,7 +20,7 @@ components:
     MessageToSave:
       type: object
       properties:
-        message:
+        text:
           type: string
           description: The message to be encrypted.
           example: Hello world!
@@ -34,7 +34,7 @@ components:
           enum: [cesar, xor]
           example: xor
       required:
-        - message
+        - text
         - key
         - type
     Message:
@@ -45,7 +45,7 @@ components:
           format: int64
           description: The message DB id
           example: 9
-        encryptedMessage:
+        text:
           type: string
           description: The saved encrypted message
           example: Ury%$yb@jbeyq
@@ -57,7 +57,7 @@ components:
           format: int64
           description: ID of the decrypted message
           example: 13
-        decryptedMessage:
+        text:
           type: string
           description: Decrypted message
           example: Hello world!

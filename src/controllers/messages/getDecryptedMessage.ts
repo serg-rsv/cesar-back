@@ -13,25 +13,24 @@ export const getDecryptedMessage = async (
     if (!storedMessage) {
       return res.status(404).json({ error: 'Message not found' });
     }
-    const { encrypted_message, encryption_type, encryption_key } =
-      storedMessage;
-    let decryptedMessage;
+    const { encrypted_text, encryption_type, encryption_key } = storedMessage;
+    let decryptedText;
     switch (encryption_type) {
       case 'cesar':
-        decryptedMessage = caesarDecrypt(
-          encrypted_message.toString(),
+        decryptedText = caesarDecrypt(
+          encrypted_text.toString(),
           Number(encryption_key)
         );
         break;
       case 'xor':
-        decryptedMessage = xor(encrypted_message.toString(), encryption_key);
+        decryptedText = xor(encrypted_text.toString(), encryption_key);
         break;
 
       default:
         throw new Error('Failed to decrypt message');
     }
 
-    res.status(200).json({ id: messageId, decryptedMessage });
+    res.status(200).json({ id: messageId, text: decryptedText });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

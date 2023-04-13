@@ -12,7 +12,6 @@ const { swaggerSpec } = require('./swagger');
 import { connectToDatabase } from './config';
 import { User, Message } from './models';
 import { authRouter, messageRouter } from './routes';
-import { authentication } from './middleware';
 
 const app = express();
 
@@ -24,7 +23,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/auth', authRouter);
-app.use('/api/messages', authentication, messageRouter);
+app.use('/api/messages', messageRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

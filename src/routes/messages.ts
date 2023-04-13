@@ -5,6 +5,7 @@ import {
   getEncryptedMessage,
   getMessages,
 } from '../controllers/messages';
+import { authentication } from '../middleware';
 
 const router = express.Router();
 
@@ -36,7 +37,7 @@ const router = express.Router();
  *       '401':
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.post('/', createMessage);
+router.post('/', authentication, createMessage);
 
 /**
  * @swagger
@@ -60,7 +61,7 @@ router.post('/', createMessage);
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', getMessages);
+router.get('/', authentication, getMessages);
 
 /**
  * @swagger
@@ -89,7 +90,7 @@ router.get('/', getMessages);
  *       404:
  *         $ref: '#/components/responses/NotFoundError'
  */
-router.get('/:messageId', getEncryptedMessage);
+router.get('/:messageId', authentication, getEncryptedMessage);
 
 /**
  * @swagger
@@ -118,6 +119,6 @@ router.get('/:messageId', getEncryptedMessage);
  *       '401':
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/:messageId/decrypt', getDecryptedMessage);
+router.get('/:messageId/decrypt', authentication, getDecryptedMessage);
 
 export default router;

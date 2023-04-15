@@ -1,5 +1,6 @@
 import express from 'express';
-import { register, login } from '../controllers/auth';
+import { register, login, user } from '../controllers/auth';
+import { authentication } from '../middleware';
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/AccessToken'
+ *               $ref: '#/components/schemas/SuccessAuth'
  *       400:
  *        $ref: '#/components/responses/BadRequestError'
  *       409:
@@ -66,7 +67,7 @@ router.post('/register', register);
  *           content:
  *             application/json:
  *               schema:
- *                 $ref: '#/components/schemas/AccessToken'
+ *                 $ref: '#/components/schemas/SuccessAuth'
  *         400:
  *           $ref: '#/components/responses/BadRequestError'
  *         401:
@@ -74,4 +75,27 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
+/**
+ * @swagger
+ * /auth/user:
+ *   get:
+ *     tags:
+ *       - Authorization
+ *     summary: Get current user
+ *     description: Get information about current user
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Email of current user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ */
+router.get('/user', authentication, user);
+// Для анулювання токену
+// router.post('/logout',logout)
 export default router;

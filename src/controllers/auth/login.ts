@@ -24,7 +24,7 @@ export const login = async (req: Request, res: Response) => {
 
     const accessToken = generateAccessToken(user);
 
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ accessToken, email });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Internal server error' });

@@ -28,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
 
     await user.update({ token: accessToken });
 
-    return res.status(201).json({ accessToken });
+    return res.status(201).json({ accessToken, email });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal server error' });

@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import logger from 'morgan';
+import cors from 'cors';
 
 const configPath = path.join(__dirname, 'config', '.env');
 dotenv.config({ path: configPath });
@@ -17,6 +18,8 @@ const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
+
+app.use(cors());
 
 app.use(express.json());
 

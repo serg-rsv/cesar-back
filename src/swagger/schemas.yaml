@@ -11,12 +11,15 @@ components:
       required:
         - email
         - password
-    AccessToken:
+    SuccessAuth:
       type: object
       properties:
         accessToken:
           type: string
           description: Access token for authorized requests
+        email:
+          type: string
+          format: email
     MessageToSave:
       type: object
       properties:
@@ -61,6 +64,13 @@ components:
           type: string
           description: Decrypted message
           example: Hello world!
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: Current user email
   responses:
     BadRequestError:
       description: Bad request. Missing or invalid some required data.

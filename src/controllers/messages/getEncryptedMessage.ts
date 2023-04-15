@@ -15,7 +15,7 @@ export const getEncryptedMessage = async (
 
     res.status(200).json({
       id: storedMessage.id,
-      text: storedMessage.encrypted_text,
+      text: storedMessage.encrypted_text.toString(),
     });
   } catch (error) {
     console.error(error);

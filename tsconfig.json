@@ -6,12 +6,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "removeComments": true,
+    "removeComments": false,
     "noEmitOnError": true,
     "noImplicitAny": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/**/*"],
+  "include": ["src/swagger/schemas.yaml", "src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }

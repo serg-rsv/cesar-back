@@ -24,4 +24,4 @@ Run
 npm run server
 ```
 ## Documentation
-You can get more information about the API by visiting [`/api-docs`](http://localhost:5000/api-docs) after starting this server.
+You can get more information about the API by visiting [`/api-docs`](http://localhost:5000/api-docs) after starting this server or use this [link](https://cesar-ws.onrender.com/api-docs/)

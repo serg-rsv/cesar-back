@@ -164,6 +164,23 @@ const swaggerDefinition = {
           },
         },
       },
+      ForbiddenError: {
+        description: 'Access to the requested resource is denied',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  description: 'The error message',
+                  example: 'Access denied',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     securitySchemes: {
       BearerAuth: {

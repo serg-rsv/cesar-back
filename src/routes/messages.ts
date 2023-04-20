@@ -26,15 +26,15 @@ const router = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/MessageToSave'
  *     responses:
- *       '201':
+ *       201:
  *         description: Message created successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Message'
- *       '400':
+ *       400:
  *         $ref: '#/components/responses/BadRequestError'
- *       '401':
+ *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 router.post('/', authentication, createMessage);
@@ -87,6 +87,8 @@ router.get('/', authentication, getMessages);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Message'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
  *       404:
  *         $ref: '#/components/responses/NotFoundError'
  */
@@ -110,14 +112,18 @@ router.get('/:messageId', authentication, getEncryptedMessage);
  *     security:
  *       - BearerAuth: []
  *     responses:
- *       '200':
+ *       200:
  *         description: Decrypted message retrieved successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/DecryptedMessage'
- *       '401':
+ *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
  */
 router.get('/:messageId/decrypt', authentication, getDecryptedMessage);
 
